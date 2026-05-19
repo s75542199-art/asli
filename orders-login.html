@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>ورود اپراتور سفارشات | فروشگاه فورمو</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Vazirmatn', 'Tahoma', sans-serif;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            position: relative;
+        }
+
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 0;
+        }
+
+        .bg-circle {
+            position: absolute;
+            background: radial-gradient(circle, rgba(108,92,231,0.1) 0%, rgba(108,92,231,0) 70%);
+            border-radius: 50%;
+            animation: float 8s ease-in-out infinite;
+        }
+
+        .bg-circle:nth-child(1) { width: 500px; height: 500px; top: -200px; right: -200px; }
+        .bg-circle:nth-child(2) { width: 400px; height: 400px; bottom: -150px; left: -150px; }
+        .bg-circle:nth-child(3) { width: 300px; height: 300px; top: 40%; right: 10%; }
+        .bg-circle:nth-child(4) { width: 200px; height: 200px; bottom: 20%; left: 15%; }
+        .bg-circle:nth-child(5) { width: 350px; height: 350px; top: 10%; left: -100px; }
+
+        @keyframes float {
+            0%,100% { transform: translateY(0) translateX(0); }
+            25% { transform: translateY(-20px) translateX(10px); }
+            50% { transform: translateY(10px) translateX(-10px); }
+            75% { transform: translateY(-10px) translateX(20px); }
+        }
+
+        .login-container {
+            position: relative;
+            z-index: 10;
+            width: 100%;
+            max-width: 480px;
+            animation: slideUp 0.6s ease;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .login-card {
+            background: rgba(255,255,255,0.98);
+            backdrop-filter: blur(10px);
+            border-radius: 35px;
+            padding: 45px 40px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.3);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .login-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, #6c5ce7, #a29bfe, #6c5ce7);
+        }
+
+        .login-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 35px 60px rgba(0,0,0,0.4);
+        }
+
+        .card-header {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .icon-wrapper {
+            width: 85px;
+            height: 85px;
+            background: linear-gradient(135deg, #6c5ce7, #a29bfe);
+            border-radius: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            box-shadow: 0 10px 25px rgba(108,92,231,0.3);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%,100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .icon-wrapper i {
+            font-size: 45px;
+            color: white;
+        }
+
+        .card-header h2 {
+            font-size: 28px;
+            color: #2d3436;
+            margin-bottom: 8px;
+        }
+
+        .card-header h2 span {
+            background: linear-gradient(135deg, #6c5ce7, #a29bfe);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .card-header p {
+            color: #636e72;
+            font-size: 13px;
+        }
+
+        .input-group {
+            margin-bottom: 25px;
+        }
+
+        .input-label {
+            display: block;
+            margin-bottom: 10px;
+            color: #2d3436;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .input-label i {
+            margin-left: 8px;
+            color: #6c5ce7;
+        }
+
+        .input-field {
+            position: relative;
+        }
+
+        .input-field i {
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #b2bec3;
+            font-size: 18px;
+            transition: all 0.3s ease;
+        }
+
+        .input-field input {
+            width: 100%;
+            padding: 14px 48px 14px 18px;
+            border: 2px solid #e0e0e0;
+            border-radius: 16px;
+            font-size: 15px;
+            font-family: 'Vazirmatn', sans-serif;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .input-field input:focus {
+            outline: none;
+            border-color: #6c5ce7;
+            box-shadow: 0 0 0 4px rgba(108,92,231,0.1);
+        }
+
+        .input-field input:focus + i {
+            color: #6c5ce7;
+        }
+
+        .login-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #6c5ce7, #a29bfe);
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 16px;
+            font-size: 17px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(108,92,231,0.4);
+        }
+
+        .error-message {
+            background: linear-gradient(135deg, #fee, #fdd);
+            color: #e74c3c;
+            padding: 12px 18px;
+            border-radius: 14px;
+            margin-bottom: 25px;
+            display: none;
+            font-size: 13px;
+            text-align: center;
+            border-right: 4px solid #e74c3c;
+        }
+
+        .back-link {
+            text-align: center;
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .back-link a {
+            color: #6c5ce7;
+            text-decoration: none;
+            font-size: 14px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .back-link a:hover {
+            color: #5b4bc4;
+            gap: 12px;
+        }
+
+        .info-note {
+            margin-top: 25px;
+            background: linear-gradient(135deg, #f8f9fa, #f1f3f5);
+            border-radius: 16px;
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .info-note i {
+            font-size: 28px;
+            color: #3498db;
+        }
+
+        .info-note p {
+            font-size: 11px;
+            color: #636e72;
+            line-height: 1.5;
+        }
+
+        .info-note strong {
+            color: #2d3436;
+        }
+
+        .toggle-password {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #b2bec3;
+            font-size: 18px;
+            transition: all 0.3s ease;
+        }
+
+        .toggle-password:hover {
+            color: #6c5ce7;
+        }
+
+        @media (max-width: 520px) {
+            .login-card {
+                padding: 35px 25px;
+            }
+            .icon-wrapper {
+                width: 70px;
+                height: 70px;
+            }
+            .icon-wrapper i {
+                font-size: 35px;
+            }
+            .card-header h2 {
+                font-size: 24px;
+            }
+            .info-note {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="bg-animation">
+    <div class="bg-circle"></div>
+    <div class="bg-circle"></div>
+    <div class="bg-circle"></div>
+    <div class="bg-circle"></div>
+    <div class="bg-circle"></div>
+</div>
+
+<div class="login-container">
+    <div class="login-card">
+        <div class="card-header">
+            <div class="icon-wrapper">
+                <i class="fas fa-clipboard-list"></i>
+            </div>
+            <h2>پنل <span>اپراتور سفارشات</span></h2>
+            <p>ورود به بخش مدیریت سفارشات</p>
+        </div>
+
+        <div id="errorMsg" class="error-message">
+            <i class="fas fa-exclamation-triangle"></i> <span id="errorText"></span>
+        </div>
+
+        <form id="ordersLoginForm" onsubmit="event.preventDefault(); ordersLogin();">
+            <div class="input-group">
+                <label class="input-label">
+                    <i class="fas fa-user"></i> نام کاربری
+                </label>
+                <div class="input-field">
+                    <i class="fas fa-user"></i>
+                    <input type="text" id="operatorUser" placeholder="نام کاربری خود را وارد کنید" autocomplete="off">
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label class="input-label">
+                    <i class="fas fa-lock"></i> رمز عبور
+                </label>
+                <div class="input-field">
+                    <i class="fas fa-key"></i>
+                    <input type="password" id="operatorPass" placeholder="رمز عبور خود را وارد کنید">
+                    <button type="button" class="toggle-password" onclick="togglePassword()">
+                        <i class="fas fa-eye-slash"></i>
+                    </button>
+                </div>
+            </div>
+
+            <button type="submit" class="login-btn" id="loginBtn">
+                <i class="fas fa-sign-in-alt"></i> ورود به پنل سفارشات
+            </button>
+        </form>
+
+        <div class="info-note">
+            <i class="fas fa-info-circle"></i>
+            <p>
+                <strong>📋 اطلاعات ورود اپراتورها:</strong><br>
+                operator1 | رمز: <strong>op123</strong><br>
+                operator2 | رمز: <strong>op123</strong><br>
+                operator3 | رمز: <strong>op123</strong>
+            </p>
+        </div>
+
+        <div class="back-link">
+            <a href="index.html">
+                <i class="fas fa-arrow-right"></i> بازگشت به صفحه اصلی فروشگاه
+            </a>
+        </div>
+    </div>
+</div>
+
+<script>
+    const operators = {
+        'operator1': 'op123',
+        'operator2': 'op123',
+        'operator3': 'op123'
+    };
+
+    function ordersLogin() {
+        const username = document.getElementById('operatorUser').value.trim();
+        const password = document.getElementById('operatorPass').value;
+        const errorMsg = document.getElementById('errorMsg');
+        const errorText = document.getElementById('errorText');
+        const loginBtn = document.getElementById('loginBtn');
+
+        errorMsg.style.display = 'none';
+
+        if (!username) {
+            showError('لطفاً نام کاربری را وارد کنید');
+            document.getElementById('operatorUser').focus();
+            return;
+        }
+
+        if (!password) {
+            showError('لطفاً رمز عبور را وارد کنید');
+            document.getElementById('operatorPass').focus();
+            return;
+        }
+
+        loginBtn.classList.add('loading');
+        const originalBtnText = loginBtn.innerHTML;
+        loginBtn.innerHTML = '<i class="fas fa-spinner fa-pulse"></i> در حال بررسی...';
+
+        setTimeout(() => {
+            if (operators[username] && operators[username] === password) {
+                localStorage.setItem('operator_logged_in', 'true');
+                localStorage.setItem('operator_user', username);
+                
+                loginBtn.style.background = 'linear-gradient(135deg, #00b894, #55efc4)';
+                loginBtn.innerHTML = '<i class="fas fa-check-circle"></i> موفق! در حال انتقال...';
+                
+                setTimeout(() => {
+                    window.location.href = 'orders-panel.html';
+                }, 800);
+            } else {
+                loginBtn.classList.remove('loading');
+                loginBtn.innerHTML = originalBtnText;
+                loginBtn.style.background = '';
+                showError('❌ نام کاربری یا رمز عبور اشتباه است!');
+            }
+        }, 600);
+    }
+
+    function showError(message) {
+        const errorMsg = document.getElementById('errorMsg');
+        const errorText = document.getElementById('errorText');
+        errorText.innerText = message;
+        errorMsg.style.display = 'block';
+        errorMsg.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        setTimeout(() => {
+            errorMsg.style.display = 'none';
+        }, 4000);
+    }
+
+    function togglePassword() {
+        const passInput = document.getElementById('operatorPass');
+        const toggleBtn = document.querySelector('.toggle-password i');
+        
+        if (passInput.type === 'password') {
+            passInput.type = 'text';
+            toggleBtn.classList.remove('fa-eye-slash');
+            toggleBtn.classList.add('fa-eye');
+        } else {
+            passInput.type = 'password';
+            toggleBtn.classList.remove('fa-eye');
+            toggleBtn.classList.add('fa-eye-slash');
+        }
+    }
+
+    document.getElementById('operatorPass').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            ordersLogin();
+        }
+    });
+
+    const isLoggedIn = localStorage.getItem('operator_logged_in');
+    if (isLoggedIn === 'true') {
+        window.location.href = 'orders-panel.html';
+    }
+
+    document.getElementById('operatorUser').focus();
+</script>
+</body>
+</html>
