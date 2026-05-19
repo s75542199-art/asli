@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>تکمیل سفارش | فروشگاه فورمو</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #6c5ce7;
+            --primary-dark: #5b4bc4;
+            --secondary: #fd79a8;
+            --success: #00b894;
+            --warning: #fdcb6e;
+            --danger: #e74c3c;
+            --dark: #2d3436;
+            --gray: #b2bec3;
+            --light: #f8f9fa;
+            --white: #ffffff;
+            --shadow-sm: 0 2px 8px rgba(0,0,0,0.05);
+            --shadow-md: 0 5px 20px rgba(0,0,0,0.08);
+            --shadow-lg: 0 15px 35px rgba(0,0,0,0.12);
+            --transition: all 0.3s ease;
+            --radius: 12px;
+            --radius-lg: 20px;
+        }
+
+        body {
+            font-family: 'Vazirmatn', 'Tahoma', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            direction: rtl;
+            padding: 20px;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes pulse {
+            0%,100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .animate-fadeInUp { animation: fadeInUp 0.5s ease; }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: white;
+            border-radius: 25px;
+            padding: 20px 30px;
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            box-shadow: var(--shadow-lg);
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .logo-icon {
+            width: 45px;
+            height: 45px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: white;
+        }
+        .logo h1 {
+            font-size: 22px;
+            color: var(--dark);
+        }
+        .back-btn {
+            background: var(--gray);
+            color: white;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 40px;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .back-btn:hover {
+            background: var(--dark);
+            transform: translateY(-2px);
+        }
+
+        .steps {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+        .step {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: white;
+            padding: 12px 25px;
+            border-radius: 60px;
+            box-shadow: var(--shadow-sm);
+        }
+        .step-number {
+            width: 35px;
+            height: 35px;
+            background: var(--gray);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+        .step.active .step-number {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+        }
+        .step.active .step-text {
+            color: var(--primary);
+            font-weight: bold;
+        }
+        .step-text {
+            font-size: 14px;
+            color: var(--gray);
+        }
+
+        .checkout-grid {
+            display: grid;
+            grid-template-columns: 1fr 380px;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        .form-section {
+            background: white;
+            border-radius: 25px;
+            padding: 30px;
+            box-shadow: var(--shadow-lg);
+        }
+        .form-section h2 {
+            font-size: 22px;
+            margin-bottom: 25px;
+            position: relative;
+            padding-right: 15px;
+        }
+        .form-section h2::before {
+            content: '';
+            position: absolute;
+            right: 0;
+            top: 0;
+            height: 100%;
+            width: 4px;
+            background: linear-gradient(180deg, var(--primary), var(--secondary));
+            border-radius: 2px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--dark);
+        }
+        .form-group label i {
+            margin-left: 8px;
+            color: var(--primary);
+        }
+        .form-group input, .form-group textarea, .form-group select {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: var(--radius);
+            font-size: 14px;
+            font-family: 'Vazirmatn', sans-serif;
+            transition: var(--transition);
+        }
+        .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(108,92,231,0.1);
+        }
+        .row-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .cart-summary {
+            background: white;
+            border-radius: 25px;
+            padding: 25px;
+            box-shadow: var(--shadow-lg);
+            position: sticky;
+            top: 20px;
+        }
+        .cart-summary h3 {
+            font-size: 18px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e0e0e0;
+        }
+        .summary-items {
+            max-height: 300px;
+            overflow-y: auto;
+            margin-bottom: 20px;
+        }
+        .summary-item {
+            display: flex;
+            gap: 12px;
+            padding: 12px 0;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        .summary-item-img {
+            width: 55px;
+            height: 55px;
+            background: var(--light);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+        }
+        .summary-item-info {
+            flex: 1;
+        }
+        .summary-item-title {
+            font-size: 13px;
+            font-weight: 600;
+        }
+        .summary-item-price {
+            font-size: 12px;
+            color: var(--danger);
+        }
+        .summary-item-quantity {
+            font-size: 11px;
+            color: var(--gray);
+        }
+        .summary-total {
+            border-top: 2px solid #e0e0e0;
+            padding-top: 15px;
+            margin-top: 10px;
+        }
+        .total-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+        .total-row.grand-total {
+            font-size: 18px;
+            font-weight: bold;
+            color: var(--danger);
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid #e0e0e0;
+        }
+        .payment-note {
+            background: #e8f8f5;
+            border-radius: var(--radius);
+            padding: 12px;
+            margin-top: 15px;
+            font-size: 12px;
+            color: #1e8449;
+            text-align: center;
+        }
+        .submit-btn {
+            width: 100%;
+            background: linear-gradient(135deg, var(--success), #00a884);
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: var(--transition);
+            margin-top: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0,184,148,0.3);
+        }
+
+        @media (max-width: 768px) {
+            .checkout-grid {
+                grid-template-columns: 1fr;
+            }
+            .row-2 {
+                grid-template-columns: 1fr;
+                gap: 0;
+            }
+            .step {
+                padding: 8px 18px;
+            }
+            .step-number {
+                width: 28px;
+                height: 28px;
+                font-size: 12px;
+            }
+            .step-text {
+                font-size: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <div class="logo">
+            <div class="logo-icon"><i class="fas fa-feather-alt"></i></div>
+            <h1>تکمیل سفارش</h1>
+        </div>
+        <button class="back-btn" onclick="window.location.href='shop.html'">
+            <i class="fas fa-arrow-right"></i> بازگشت به سبد خرید
+        </button>
+    </div>
+
+    <div class="steps">
+        <div class="step active">
+            <div class="step-number">1</div>
+            <div class="step-text">اطلاعات ارسال</div>
+        </div>
+        <div class="step">
+            <div class="step-number">2</div>
+            <div class="step-text">تایید و پرداخت</div>
+        </div>
+    </div>
+
+    <div class="checkout-grid">
+        <div class="form-section">
+            <h2><i class="fas fa-truck"></i> اطلاعات ارسال</h2>
+            <form id="checkoutForm" onsubmit="return false;">
+                <div class="form-group">
+                    <label><i class="fas fa-user"></i> نام و نام خانوادگی</label>
+                    <input type="text" id="fullName" placeholder="نام و نام خانوادگی خود را وارد کنید" required>
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-phone"></i> شماره تلفن</label>
+                    <input type="tel" id="phone" placeholder="مثال: ۰۹۱۲۳۴۵۶۷۸۹" required>
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-city"></i> شهر</label>
+                    <input type="text" id="city" placeholder="شهر خود را وارد کنید" required>
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-location-dot"></i> آدرس کامل</label>
+                    <textarea id="address" rows="3" placeholder="آدرس کامل خود را وارد کنید..." required></textarea>
+                </div>
+                <div class="row-2">
+                    <div class="form-group">
+                        <label><i class="fas fa-code"></i> کد پستی</label>
+                        <input type="text" id="postalCode" placeholder="کد پستی">
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fas fa-calendar"></i> تاریخ تحویل دلخواه</label>
+                        <input type="date" id="deliveryDate">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-truck-fast"></i> روش ارسال</label>
+                    <select id="shippingMethod">
+                        <option value="express">🚀 ارسال سریع - ۳۵,۰۰۰ تومان (۲ تا ۳ روز)</option>
+                        <option value="normal">📦 ارسال معمولی - ۲۵,۰۰۰ تومان (۴ تا ۶ روز)</option>
+                        <option value="pickup">🏢 تحویل حضوری - رایگان (تهران)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-pen"></i> توضیحات (اختیاری)</label>
+                    <textarea id="notes" rows="2" placeholder="توضیحات اضافی..."></textarea>
+                </div>
+            </form>
+        </div>
+
+        <div class="cart-summary">
+            <h3><i class="fas fa-shopping-bag"></i> سبد خرید شما</h3>
+            <div class="summary-items" id="summaryItems"></div>
+            <div class="summary-total">
+                <div class="total-row">
+                    <span>جمع کل:</span>
+                    <span id="subtotal">0</span> تومان
+                </div>
+                <div class="total-row">
+                    <span>هزینه ارسال:</span>
+                    <span id="shippingCost">0</span> تومان
+                </div>
+                <div class="total-row grand-total">
+                    <span>مبلغ قابل پرداخت:</span>
+                    <span id="grandTotal">0</span> تومان
+                </div>
+            </div>
+            <div class="payment-note">
+                <i class="fas fa-money-bill"></i> روش پرداخت: پرداخت در محل (نقدی هنگام تحویل)
+            </div>
+            <button class="submit-btn" onclick="submitOrder()">
+                <i class="fas fa-check-circle"></i> نهایی کردن سفارش
+            </button>
+            <p style="font-size: 11px; color: var(--gray); text-align: center; margin-top: 15px;">
+                <i class="fas fa-shield-alt"></i> اطلاعات شما محفوظ است
+            </p>
+        </div>
+    </div>
+</div>
+
+<script>
+    let cart = [];
+
+    function loadCart() {
+        const savedCart = localStorage.getItem('fashionCart');
+        if (savedCart) {
+            cart = JSON.parse(savedCart);
+            renderSummary();
+        } else {
+            cart = [];
+            renderSummary();
+        }
+    }
+
+    function renderSummary() {
+        const container = document.getElementById('summaryItems');
+        const subtotalSpan = document.getElementById('subtotal');
+        
+        if (cart.length === 0) {
+            container.innerHTML = '<div style="text-align:center; padding:30px; color:#999;">سبد خرید شما خالی است</div>';
+            subtotalSpan.innerText = '0';
+            updateShipping();
+            return;
+        }
+        
+        container.innerHTML = cart.map(item => `
+            <div class="summary-item">
+                <div class="summary-item-img">${item.emoji}</div>
+                <div class="summary-item-info">
+                    <div class="summary-item-title">${item.name}</div>
+                    <div class="summary-item-price">${item.price.toLocaleString()} تومان</div>
+                    <div class="summary-item-quantity">تعداد: ${item.quantity}</div>
+                </div>
+                <div style="font-weight: bold; color: var(--danger);">${(item.price * item.quantity).toLocaleString()} تومان</div>
+            </div>
+        `).join('');
+        
+        const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+        subtotalSpan.innerText = subtotal.toLocaleString();
+        updateShipping();
+    }
+
+    function updateShipping() {
+        const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+        const shippingMethod = document.getElementById('shippingMethod').value;
+        let shippingCost = 0;
+        let shippingText = '';
+        
+        if (shippingMethod === 'express') {
+            shippingCost = 35000;
+            shippingText = '۳۵,۰۰۰ تومان';
+        } else if (shippingMethod === 'normal') {
+            shippingCost = 25000;
+            shippingText = '۲۵,۰۰۰ تومان';
+        } else {
+            shippingCost = 0;
+            shippingText = 'رایگان';
+        }
+        
+        document.getElementById('shippingCost').innerHTML = shippingText;
+        
+        const grandTotal = subtotal + shippingCost;
+        document.getElementById('grandTotal').innerHTML = grandTotal.toLocaleString();
+    }
+
+    document.getElementById('shippingMethod').addEventListener('change', updateShipping);
+
+    function submitOrder() {
+        const fullName = document.getElementById('fullName').value.trim();
+        const phone = document.getElementById('phone').value.trim();
+        const city = document.getElementById('city').value.trim();
+        const address = document.getElementById('address').value.trim();
+        
+        if (!fullName) {
+            alert('❌ لطفاً نام و نام خانوادگی خود را وارد کنید');
+            document.getElementById('fullName').focus();
+            return;
+        }
+        if (!phone) {
+            alert('❌ لطفاً شماره تلفن خود را وارد کنید');
+            document.getElementById('phone').focus();
+            return;
+        }
+        if (phone.length < 10) {
+            alert('❌ شماره تلفن معتبر وارد کنید');
+            document.getElementById('phone').focus();
+            return;
+        }
+        if (!city) {
+            alert('❌ لطفاً شهر خود را وارد کنید');
+            document.getElementById('city').focus();
+            return;
+        }
+        if (!address) {
+            alert('❌ لطفاً آدرس خود را وارد کنید');
+            document.getElementById('address').focus();
+            return;
+        }
+        
+        if (cart.length === 0) {
+            alert('❌ سبد خرید شما خالی است!');
+            window.location.href = 'shop.html';
+            return;
+        }
+        
+        const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+        const shippingMethod = document.getElementById('shippingMethod').value;
+        let shippingCost = 0;
+        let shippingMethodText = '';
+        
+        if (shippingMethod === 'express') {
+            shippingCost = 35000;
+            shippingMethodText = 'ارسال سریع';
+        } else if (shippingMethod === 'normal') {
+            shippingCost = 25000;
+            shippingMethodText = 'ارسال معمولی';
+        } else {
+            shippingCost = 0;
+            shippingMethodText = 'تحویل حضوری';
+        }
+        
+        const grandTotal = subtotal + shippingCost;
+        
+        const orderData = {
+            orderId: 'ORD-' + Date.now(),
+            date: new Date().toLocaleDateString('fa-IR'),
+            time: new Date().toLocaleTimeString('fa-IR'),
+            customer: {
+                name: fullName,
+                phone: phone,
+                city: city,
+                address: address,
+                postalCode: document.getElementById('postalCode').value,
+                deliveryDate: document.getElementById('deliveryDate').value,
+                notes: document.getElementById('notes').value
+            },
+            items: cart.map(item => ({
+                id: item.id,
+                name: item.name,
+                price: item.price,
+                quantity: item.quantity,
+                total: item.price * item.quantity
+            })),
+            subtotal: subtotal,
+            shippingCost: shippingCost,
+            shippingMethod: shippingMethodText,
+            paymentMethod: 'پرداخت در محل (نقدی)',
+            grandTotal: grandTotal,
+            status: 'pending'
+        };
+        
+        let orders = JSON.parse(localStorage.getItem('userOrders')) || [];
+        orders.unshift(orderData);
+        localStorage.setItem('userOrders', JSON.stringify(orders));
+        
+        localStorage.setItem('lastOrder', JSON.stringify(orderData));
+        
+        localStorage.removeItem('fashionCart');
+        
+        alert(`✅ سفارش شما با موفقیت ثبت شد!\n\nشناسه سفارش: ${orderData.orderId}\nمبلغ قابل پرداخت: ${grandTotal.toLocaleString()} تومان\n\nپس از تحویل کالا، مبلغ را به مامور ارسال پرداخت کنید.\n\nبه زودی با شما تماس گرفته خواهد شد.`);
+        
+        window.location.href = 'order-success.html';
+    }
+
+    function checkLogin() {
+        if (!localStorage.getItem('fashionLoggedIn')) {
+            window.location.href = 'index.html';
+        }
+    }
+
+    checkLogin();
+    loadCart();
+</script>
+</body>
+</html>
