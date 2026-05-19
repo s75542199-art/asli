@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>درباره ما | فروشگاه فورمو</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Tahoma', 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            direction: rtl;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            background: white;
+            border-radius: 20px;
+            padding: 15px 25px;
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+        }
+        .logo-icon {
+            width: 45px;
+            height: 45px;
+            background: linear-gradient(135deg, #6c5ce7, #a29bfe);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: white;
+        }
+        .logo h1 { font-size: 22px; color: #333; }
+        .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+        .nav-links a {
+            text-decoration: none;
+            color: #666;
+            transition: all 0.3s ease;
+        }
+        .nav-links a:hover { color: #6c5ce7; }
+        .back-btn {
+            background: #6c5ce7;
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .back-btn:hover { transform: translateY(-2px); background: #5b4bc4; }
+
+        .hero {
+            background: linear-gradient(135deg, #6c5ce7, #a29bfe);
+            border-radius: 25px;
+            padding: 60px 40px;
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
+        }
+        .hero h1 { font-size: 36px; margin-bottom: 15px; }
+        .hero p { font-size: 16px; opacity: 0.9; line-height: 1.6; }
+
+        .section {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+        .section h2 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            position: relative;
+            padding-right: 15px;
+        }
+        .section h2::before {
+            content: '';
+            position: absolute;
+            right: 0;
+            top: 0;
+            height: 100%;
+            width: 4px;
+            background: linear-gradient(180deg, #6c5ce7, #a29bfe);
+            border-radius: 2px;
+        }
+        .section p {
+            color: #666;
+            line-height: 1.8;
+            margin-bottom: 15px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+        .stat-card {
+            text-align: center;
+            padding: 30px;
+            background: #f8f9fa;
+            border-radius: 15px;
+        }
+        .stat-number {
+            font-size: 32px;
+            font-weight: bold;
+            color: #6c5ce7;
+        }
+        .stat-label {
+            color: #666;
+            margin-top: 8px;
+        }
+
+        .footer {
+            background: #2d3436;
+            color: white;
+            padding: 30px;
+            border-radius: 20px;
+            text-align: center;
+            margin-top: 30px;
+        }
+        .footer a {
+            color: #b2bec3;
+            text-decoration: none;
+            margin: 0 10px;
+            transition: all 0.3s ease;
+        }
+        .footer a:hover { color: #6c5ce7; }
+
+        @media (max-width: 768px) {
+            .container { padding: 15px; }
+            .header { flex-direction: column; text-align: center; }
+            .hero { padding: 35px 20px; }
+            .hero h1 { font-size: 28px; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <div class="logo" onclick="window.location.href='shop.html'">
+            <div class="logo-icon"><i class="fas fa-feather-alt"></i></div>
+            <h1>فروشگاه فورمو</h1>
+        </div>
+        <div class="nav-links">
+            <a href="shop.html">فروشگاه</a>
+            <a href="contact.html">تماس با ما</a>
+            <a href="faq.html">سوالات</a>
+        </div>
+        <button class="back-btn" onclick="window.location.href='shop.html'">
+            <i class="fas fa-arrow-right"></i> بازگشت
+        </button>
+    </div>
+
+    <div class="hero">
+        <h1>درباره <span style="background:white; color:#6c5ce7; padding:0 15px; border-radius:30px;">فورمو</span></h1>
+        <p>بزرگترین فروشگاه آنلاین مد و لباس با بهترین کیفیت و قیمت</p>
+    </div>
+
+    <div class="section">
+        <h2><i class="fas fa-flag-checkered"></i> داستان ما</h2>
+        <p>فروشگاه فورمو در سال ۱۴۰۰ با هدف ارائه بهترین محصولات مد و لباس به مشتریان عزیز تاسیس شد. ما معتقدیم که هر کس حق دارد بهترین باشد و استایل منحصر به فرد خود را داشته باشد.</p>
+        <p>از همان ابتدا، تلاش کردیم تا با انتخاب بهترین برندها و محصولات با کیفیت، تجربه خریدی لذت‌بخش و آسان را برای مشتریان فراهم کنیم. امروز، فورمو به عنوان یکی از معتبرترین فروشگاه‌های آنلاین مد و لباس در کشور شناخته می‌شود.</p>
+    </div>
+
+    <div class="section">
+        <h2><i class="fas fa-bullseye"></i> مأموریت و چشم‌انداز</h2>
+        <p><strong>مأموریت ما:</strong> ارائه بهترین محصولات مد و لباس با کیفیت بالا و قیمت مناسب، همراه با تجربه خریدی لذت‌بخش و خدمات پس از فروش عالی.</p>
+        <p><strong>چشم‌انداز ما:</strong> تبدیل شدن به بزرگترین و معتبرترین فروشگاه آنلاین مد و لباس در خاورمیانه.</p>
+    </div>
+
+    <div class="stats-grid">
+        <div class="stat-card"><div class="stat-number">500+</div><div class="stat-label">محصولات</div></div>
+        <div class="stat-card"><div class="stat-number">10k+</div><div class="stat-label">مشتریان راضی</div></div>
+        <div class="stat-card"><div class="stat-number">24/7</div><div class="stat-label">پشتیبانی</div></div>
+        <div class="stat-card"><div class="stat-number">7 روز</div><div class="stat-label">ضمانت بازگشت</div></div>
+    </div>
+
+    <div class="footer">
+        <p>© ۱۴۰۳ فروشگاه فورمو - تمامی حقوق محفوظ است</p>
+        <p style="margin-top: 10px;">
+            <a href="about.html">درباره ما</a>
+            <a href="contact.html">تماس با ما</a>
+            <a href="faq.html">سوالات متداول</a>
+            <a href="terms.html">قوانین</a>
+        </p>
+    </div>
+</div>
+</body>
+</html>
