@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>مدیریت سفارشات | فروشگاه فورمو</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #6c5ce7;
+            --primary-dark: #5b4bc4;
+            --primary-light: #a29bfe;
+            --secondary: #fd79a8;
+            --success: #00b894;
+            --success-dark: #00a884;
+            --warning: #fdcb6e;
+            --danger: #e74c3c;
+            --danger-dark: #c0392b;
+            --dark: #2d3436;
+            --dark-light: #636e72;
+            --gray: #b2bec3;
+            --gray-light: #dfe6e9;
+            --light: #f8f9fa;
+            --white: #ffffff;
+            --shadow-sm: 0 2px 8px rgba(0,0,0,0.04);
+            --shadow-md: 0 5px 20px rgba(0,0,0,0.08);
+            --shadow-lg: 0 15px 35px rgba(0,0,0,0.12);
+            --shadow-xl: 0 25px 50px rgba(0,0,0,0.15);
+            --transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
+            --radius: 12px;
+            --radius-lg: 20px;
+            --radius-xl: 28px;
+        }
+
+        body {
+            font-family: 'Vazirmatn', 'Tahoma', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            direction: rtl;
+            padding: 20px;
+        }
+
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb { background: linear-gradient(135deg, var(--primary), var(--secondary)); border-radius: 10px; }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes pulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+
+        .animate-fadeInUp { animation: fadeInUp 0.5s ease; }
+        .animate-pulse { animation: pulse 2s infinite; }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: rgba(255,255,255,0.98);
+            backdrop-filter: blur(10px);
+            border-radius: var(--radius-xl);
+            padding: 18px 30px;
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            box-shadow: var(--shadow-lg);
+            transition: var(--transition);
+        }
+        .header:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-xl);
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .logo-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: white;
+            animation: pulse 2s infinite;
+        }
+        .logo h1 {
+            font-size: 22px;
+            color: var(--dark);
+        }
+        .logo h1 span {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .admin-badge {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 8px 20px;
+            border-radius: 40px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+        }
+        .view-shop {
+            background: var(--success);
+            color: white;
+            border: none;
+            padding: 8px 22px;
+            border-radius: 40px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+        .view-shop:hover {
+            background: var(--success-dark);
+            transform: translateY(-2px);
+        }
+        .logout-btn {
+            background: var(--danger);
+            color: white;
+            border: none;
+            padding: 8px 22px;
+            border-radius: 40px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+        .logout-btn:hover {
+            background: var(--danger-dark);
+            transform: translateY(-2px);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        .stat-card {
+            background: white;
+            border-radius: var(--radius-lg);
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition);
+        }
+        .stat-card:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-lg);
+        }
+        .stat-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--primary-light), var(--primary));
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            color: white;
+        }
+        .stat-info h3 {
+            font-size: 26px;
+            font-weight: 800;
+            color: var(--dark);
+        }
+        .stat-info p {
+            color: var(--gray);
+            font-size: 12px;
+        }
+
+        .filters-bar {
+            background: white;
+            border-radius: var(--radius-lg);
+            padding: 15px 20px;
+            margin-bottom: 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            box-shadow: var(--shadow-sm);
+        }
+        .search-box {
+            display: flex;
+            align-items: center;
+            background: var(--light);
+            border-radius: 60px;
+            padding: 8px 18px;
+            gap: 8px;
+            flex: 1;
+            max-width: 280px;
+        }
+        .search-box i { color: var(--gray); }
+        .search-box input {
+            border: none;
+            background: none;
+            outline: none;
+            width: 100%;
+            font-family: 'Vazirmatn', sans-serif;
+        }
+        .status-filter {
+            padding: 8px 18px;
+            border: 2px solid var(--gray-light);
+            border-radius: 60px;
+            background: white;
+            font-family: 'Vazirmatn', sans-serif;
+            cursor: pointer;
+        }
+
+        .orders-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+            gap: 25px;
+        }
+        .order-card {
+            background: white;
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition);
+            animation: fadeInUp 0.4s ease;
+        }
+        .order-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-xl);
+        }
+        .order-header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .order-id { font-weight: bold; font-size: 13px; }
+        .order-status {
+            padding: 3px 10px;
+            border-radius: 30px;
+            font-size: 10px;
+            font-weight: bold;
+        }
+        .status-pending { background: #f39c12; color: white; }
+        .status-processing { background: #3498db; color: white; }
+        .status-shipped { background: #9b59b6; color: white; }
+        .status-delivered { background: #27ae60; color: white; }
+        .status-cancelled { background: #e74c3c; color: white; }
+        .order-body { padding: 15px; }
+        .order-customer {
+            background: var(--light);
+            border-radius: var(--radius);
+            padding: 10px;
+            margin-bottom: 12px;
+        }
+        .customer-name {
+            font-weight: bold;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-bottom: 6px;
+        }
+        .customer-info {
+            font-size: 11px;
+            color: var(--gray);
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 5px;
+        }
+        .order-items {
+            margin: 12px 0;
+            max-height: 180px;
+            overflow-y: auto;
+        }
+        .order-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 6px 0;
+            border-bottom: 1px solid var(--gray-light);
+            font-size: 11px;
+        }
+        .order-total {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-top: 2px solid var(--gray-light);
+            font-weight: bold;
+            font-size: 14px;
+            color: var(--danger);
+        }
+        .order-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 12px;
+            flex-wrap: wrap;
+        }
+        .action-btn {
+            flex: 1;
+            padding: 8px;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 11px;
+            font-weight: 600;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+        }
+        .action-btn:hover { transform: translateY(-2px); }
+        .btn-info { background: #3498db; color: white; }
+        .btn-processing { background: #3498db; color: white; }
+        .btn-shipped { background: #9b59b6; color: white; }
+        .btn-delivered { background: #27ae60; color: white; }
+        .btn-cancelled { background: #e74c3c; color: white; }
+        .btn-delete { background: #c0392b; color: white; }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            backdrop-filter: blur(5px);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+        .modal.show { display: flex; }
+        .modal-content {
+            background: white;
+            border-radius: var(--radius-xl);
+            padding: 30px;
+            width: 90%;
+            max-width: 450px;
+        }
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--gray-light);
+        }
+        .modal-header h3 {
+            font-size: 20px;
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--gray);
+            transition: var(--transition);
+        }
+        .close-modal:hover { color: var(--danger); }
+        .customer-detail {
+            margin-bottom: 15px;
+            padding: 10px;
+            background: var(--light);
+            border-radius: var(--radius);
+        }
+        .customer-detail label {
+            font-weight: bold;
+            color: var(--primary);
+            display: block;
+            margin-bottom: 5px;
+            font-size: 12px;
+        }
+        .customer-detail div { font-size: 14px; color: var(--dark); }
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--gray);
+            grid-column: 1/-1;
+        }
+        .empty-state i { font-size: 70px; margin-bottom: 15px; opacity: 0.5; }
+
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: linear-gradient(135deg, var(--success), var(--success-dark));
+            color: white;
+            padding: 12px 25px;
+            border-radius: 50px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            z-index: 2000;
+            transform: translateX(450px);
+            transition: transform 0.3s ease;
+            box-shadow: var(--shadow-lg);
+            font-size: 13px;
+        }
+        .toast.show { transform: translateX(0); }
+        .toast.error { background: linear-gradient(135deg, var(--danger), var(--danger-dark)); }
+
+        @media (max-width: 768px) {
+            body { padding: 15px; }
+            .header { flex-direction: column; text-align: center; }
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+            .orders-grid { grid-template-columns: 1fr; }
+            .filters-bar { flex-direction: column; }
+            .search-box { max-width: 100%; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <div class="logo">
+            <div class="logo-icon"><i class="fas fa-clipboard-list"></i></div>
+            <h1>مدیریت <span>سفارشات</span></h1>
+        </div>
+        <div class="user-info">
+            <div class="admin-badge"><i class="fas fa-user-cog"></i> <span id="adminName"></span></div>
+            <a href="shop.html" class="view-shop"><i class="fas fa-store"></i> فروشگاه</a>
+            <button class="logout-btn" onclick="logout()"><i class="fas fa-sign-out-alt"></i> خروج</button>
+        </div>
+    </div>
+
+    <div class="stats-grid">
+        <div class="stat-card"><div class="stat-icon"><i class="fas fa-shopping-cart"></i></div><div class="stat-info"><h3 id="totalOrders">0</h3><p>کل سفارشات</p></div></div>
+        <div class="stat-card"><div class="stat-icon"><i class="fas fa-clock"></i></div><div class="stat-info"><h3 id="pendingOrders">0</h3><p>در انتظار</p></div></div>
+        <div class="stat-card"><div class="stat-icon"><i class="fas fa-truck"></i></div><div class="stat-info"><h3 id="shippedOrders">0</h3><p>ارسال شده</p></div></div>
+        <div class="stat-card"><div class="stat-icon"><i class="fas fa-check-circle"></i></div><div class="stat-info"><h3 id="deliveredOrders">0</h3><p>تحویل شده</p></div></div>
+    </div>
+
+    <div class="filters-bar">
+        <div class="search-box"><i class="fas fa-search"></i><input type="text" id="searchOrder" placeholder="جستجو با نام یا شماره..."></div>
+        <select id="statusFilter" class="status-filter">
+            <option value="all">همه وضعیت‌ها</option>
+            <option value="pending">در انتظار پردازش</option>
+            <option value="processing">در حال پردازش</option>
+            <option value="shipped">ارسال شده</option>
+            <option value="delivered">تحویل شده</option>
+            <option value="cancelled">لغو شده</option>
+        </select>
+    </div>
+
+    <div class="orders-grid" id="ordersGrid"></div>
+</div>
+
+<div id="customerModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header"><h3><i class="fas fa-user-circle"></i> اطلاعات مشتری</h3><button class="close-modal" onclick="closeCustomerModal()">&times;</button></div>
+        <div id="customerModalBody"></div>
+    </div>
+</div>
+
+<div class="toast" id="toast"><i class="fas fa-check-circle"></i><span id="toastMsg"></span></div>
+
+<script>
+    let orders = [];
+    let searchTerm = '';
+    let statusFilter = 'all';
+
+    function loadOrders() {
+        const saved = localStorage.getItem('userOrders');
+        if (saved) {
+            orders = JSON.parse(saved);
+        } else {
+            orders = [];
+        }
+        orders = orders.filter(order => {
+            if (order.customer && order.customer.name) {
+                return order.customer.name !== 'مهمان' && !order.customer.name.includes('مهمان');
+            }
+            return true;
+        });
+        updateStats();
+        renderOrders();
+    }
+
+    function saveOrders() {
+        localStorage.setItem('userOrders', JSON.stringify(orders));
+        updateStats();
+        renderOrders();
+        showToast('تغییرات ذخیره شد!');
+    }
+
+    function updateStats() {
+        document.getElementById('totalOrders').innerText = orders.length;
+        document.getElementById('pendingOrders').innerText = orders.filter(o => o.status === 'pending').length;
+        document.getElementById('shippedOrders').innerText = orders.filter(o => o.status === 'shipped').length;
+        document.getElementById('deliveredOrders').innerText = orders.filter(o => o.status === 'delivered').length;
+    }
+
+    function showCustomerInfo(orderId) {
+        const order = orders.find(o => o.orderId === orderId);
+        if (!order) return;
+        const modalBody = document.getElementById('customerModalBody');
+        modalBody.innerHTML = `
+            <div class="customer-detail"><label><i class="fas fa-user"></i> نام مشتری</label><div>${order.customer ? order.customer.name : 'نامشخص'}</div></div>
+            <div class="customer-detail"><label><i class="fas fa-phone"></i> شماره تلفن</label><div>${order.customer ? order.customer.phone : 'نامشخص'}</div></div>
+            <div class="customer-detail"><label><i class="fas fa-city"></i> شهر</label><div>${order.customer ? order.customer.city : 'نامشخص'}</div></div>
+            <div class="customer-detail"><label><i class="fas fa-location-dot"></i> آدرس کامل</label><div>${order.customer ? order.customer.address : 'نامشخص'}</div></div>
+            ${order.customer && order.customer.postalCode ? `<div class="customer-detail"><label><i class="fas fa-code"></i> کد پستی</label><div>${order.customer.postalCode}</div></div>` : ''}
+            ${order.customer && order.customer.notes ? `<div class="customer-detail"><label><i class="fas fa-pen"></i> توضیحات</label><div>${order.customer.notes}</div></div>` : ''}
+            <div class="customer-detail"><label><i class="fas fa-calendar"></i> تاریخ ثبت سفارش</label><div>${order.date || 'نامشخص'}</div></div>
+        `;
+        document.getElementById('customerModal').classList.add('show');
+    }
+
+    function closeCustomerModal() {
+        document.getElementById('customerModal').classList.remove('show');
+    }
+
+    function updateOrderStatus(orderId, newStatus) {
+        const order = orders.find(o => o.orderId === orderId);
+        if (order) {
+            order.status = newStatus;
+            saveOrders();
+            showToast(`وضعیت سفارش ${orderId} به ${getStatusText(newStatus)} تغییر کرد`);
+        }
+    }
+
+    function deleteOrder(orderId) {
+        if (confirm('⚠️ آیا از حذف این سفارش اطمینان دارید؟ این عمل غیرقابل بازگشت است.')) {
+            const order = orders.find(o => o.orderId === orderId);
+            if (order && order.status === 'delivered') {
+                orders = orders.filter(o => o.orderId !== orderId);
+                saveOrders();
+                showToast(`✅ سفارش ${orderId} با موفقیت حذف شد!`);
+            } else {
+                showToast('❌ فقط سفارش‌های تحویل شده قابل حذف هستند!', 'error');
+            }
+        }
+    }
+
+    function getStatusText(status) {
+        const map = { pending: 'در انتظار پردازش', processing: 'در حال پردازش', shipped: 'ارسال شده', delivered: 'تحویل شده', cancelled: 'لغو شده' };
+        return map[status] || status;
+    }
+
+    function getStatusClass(status) {
+        const map = { pending: 'status-pending', processing: 'status-processing', shipped: 'status-shipped', delivered: 'status-delivered', cancelled: 'status-cancelled' };
+        return map[status] || 'status-pending';
+    }
+
+    function renderOrders() {
+        let filtered = [...orders];
+        if (statusFilter !== 'all') filtered = filtered.filter(o => o.status === statusFilter);
+        if (searchTerm) filtered = filtered.filter(o => o.orderId.toLowerCase().includes(searchTerm.toLowerCase()) || (o.customer && o.customer.name && o.customer.name.toLowerCase().includes(searchTerm.toLowerCase())));
+        const container = document.getElementById('ordersGrid');
+        if (filtered.length === 0) {
+            container.innerHTML = `<div class="empty-state"><i class="fas fa-box-open"></i><h3>هیچ سفارشی یافت نشد</h3><p>هنوز سفارشی ثبت نشده است</p></div>`;
+            return;
+        }
+        container.innerHTML = filtered.map(order => `
+            <div class="order-card">
+                <div class="order-header"><span class="order-id"><i class="fas fa-receipt"></i> ${order.orderId}</span><span class="order-status ${getStatusClass(order.status)}">${getStatusText(order.status)}</span></div>
+                <div class="order-body">
+                    <div class="order-customer"><div class="customer-name"><i class="fas fa-user-circle"></i> ${order.customer ? order.customer.name : 'نامشخص'}</div><div class="customer-info"><span><i class="fas fa-phone"></i> ${order.customer ? order.customer.phone : '-'}</span><span><i class="fas fa-calendar"></i> ${order.date || '-'}</span></div><div class="customer-info"><span><i class="fas fa-city"></i> ${order.customer ? order.customer.city : '-'}</span></div></div>
+                    <div class="order-items">${order.items ? order.items.slice(0, 3).map(item => `<div class="order-item"><span>${item.name} × ${item.quantity}</span><span>${(item.price * item.quantity).toLocaleString()} تومان</span></div>`).join('') : ''}${order.items && order.items.length > 3 ? `<div class="order-item" style="color:var(--gray); justify-content:center;">و ${order.items.length - 3} محصول دیگر...</div>` : ''}</div>
+                    <div class="order-total"><span>مجموع:</span><span>${order.grandTotal ? order.grandTotal.toLocaleString() : (order.total ? order.total.toLocaleString() : '0')} تومان</span></div>
+                    <div class="order-actions">
+                        <button class="action-btn btn-info" onclick="showCustomerInfo('${order.orderId}')"><i class="fas fa-info-circle"></i> اطلاعات مشتری</button>
+                        ${order.status !== 'delivered' && order.status !== 'cancelled' ? `
+                            <button class="action-btn btn-processing" onclick="updateOrderStatus('${order.orderId}', 'processing')"><i class="fas fa-cogs"></i> پردازش</button>
+                            <button class="action-btn btn-shipped" onclick="updateOrderStatus('${order.orderId}', 'shipped')"><i class="fas fa-truck"></i> ارسال</button>
+                            <button class="action-btn btn-delivered" onclick="updateOrderStatus('${order.orderId}', 'delivered')"><i class="fas fa-check-circle"></i> تحویل</button>
+                        ` : ''}
+                        ${order.status === 'delivered' ? `<button class="action-btn btn-delete" onclick="deleteOrder('${order.orderId}')"><i class="fas fa-trash-alt"></i> حذف سفارش</button>` : ''}
+                        ${order.status !== 'delivered' && order.status !== 'cancelled' ? `<button class="action-btn btn-cancelled" onclick="updateOrderStatus('${order.orderId}', 'cancelled')"><i class="fas fa-times-circle"></i> لغو</button>` : ''}
+                    </div>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    document.getElementById('searchOrder').addEventListener('input', function(e) { searchTerm = e.target.value; renderOrders(); });
+    document.getElementById('statusFilter').addEventListener('change', function(e) { statusFilter = e.target.value; renderOrders(); });
+    document.getElementById('customerModal').addEventListener('click', function(e) { if (e.target === this) closeCustomerModal(); });
+
+    function showToast(msg, type = 'success') {
+        const toast = document.getElementById('toast');
+        const toastMsg = document.getElementById('toastMsg');
+        toastMsg.innerText = msg;
+        toast.classList.add('show');
+        if (type === 'error') toast.classList.add('error');
+        else toast.classList.remove('error');
+        setTimeout(() => toast.classList.remove('show'), 2500);
+    }
+
+    function logout() {
+        localStorage.removeItem('operator_logged_in');
+        localStorage.removeItem('operator_user');
+        window.location.href = 'orders-login.html';
+    }
+
+    function checkLogin() {
+        const isOperator = localStorage.getItem('operator_logged_in');
+        if (!isOperator || isOperator !== 'true') window.location.href = 'orders-login.html';
+        document.getElementById('adminName').innerText = localStorage.getItem('operator_user') || 'اپراتور';
+    }
+
+    function autoRefresh() {
+        const saved = localStorage.getItem('userOrders');
+        if (saved) {
+            const newOrders = JSON.parse(saved);
+            let filteredOrders = newOrders.filter(order => {
+                if (order.customer && order.customer.name) {
+                    return order.customer.name !== 'مهمان' && !order.customer.name.includes('مهمان');
+                }
+                return true;
+            });
+            if (JSON.stringify(orders) !== JSON.stringify(filteredOrders)) {
+                orders = filteredOrders;
+                updateStats();
+                renderOrders();
+            }
+        }
+    }
+
+    checkLogin();
+    loadOrders();
+    setInterval(autoRefresh, 3000);
+</script>
+</body>
+</html>
